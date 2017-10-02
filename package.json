@@ -1,0 +1,25 @@
+{
+  "name": "src-munch",
+  "version": "1.0.0",
+  "description": "A set of tools used to unobtrusively consume development artifacts and provide them as clojure edn data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reifyhealth/src-munch.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reifyhealth/src-munch/issues"
+  },
+  "homepage": "https://github.com/reifyhealth/src-munch#readme",
+  "devDependencies": {
+    "css": "^2.2.1",
+    "htmlparser": "^1.7.7",
+    "minimist": "^1.2.0",
+    "scss-symbols-parser": "^1.1.3"
+  }
+}
