@@ -48,3 +48,9 @@ lumo --classpath src
 
 ### TODO: Explain what the parsers do...
 ### TODO: Show an example of how to use parsers that is generic...
+
+## License
+
+Source Copyright © 2017 Reify Health, Inc.
+
+Distributed under the MIT License.  See the file LICENSE.
