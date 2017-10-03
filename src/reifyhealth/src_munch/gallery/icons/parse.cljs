@@ -1,8 +1,7 @@
 (ns reifyhealth.src-munch.gallery.icons.parse
-  "The logic used to parse icon data from our icomoon artifacts
-  in order to provide it for display in the gallery."
-  (:require
-            [clojure.set :refer [rename-keys]]
+  "Parse icon data from our icomoon artifacts to provide it for
+  display in the gallery."
+  (:require [clojure.set :refer [rename-keys]]
             [clojure.string :as str]
             [goog.object :as go]
             [reifyhealth.src-munch.util :refer [slurp spit]]))
@@ -14,7 +13,7 @@
 (def Parser (go/get html-parser "Parser"))
 
 (defn- first-match-children
-  "Apply filter to get the first match, then take it's children"
+  "Apply filter to get the first match, then take its children"
   [pred coll]
   (-> (filter pred coll)
       first
@@ -29,28 +28,26 @@
 (defn flatten-icon-data
   "Icons with the same name are coupled together, like \"up-arrow, sorted\""
   [{:keys [name value]}]
-  (mapv #(hash-map :name (str/trim %) :value value) (str/split name #",")))
+  (mapv #(hash-map :name (str/trim %) :value value)
+        (str/split name #",")))
 
 (defn- locate-icons
   "Traverse the html AST to find the icomoon glyph data"
   [dom]
-  (as-> dom $
-    (js->clj $ :keywordize-keys true)
-    (first-match-children (name-equal-to "svg") $)
-    (first-match-children (name-equal-to "defs") $)
-    (first-match-children (name-equal-to "font") $)
-    (filter (fn [{:keys [name attribs]} _]
-              (and (= name "glyph")
-                   (:glyph-name attribs)))
-            $)
-    (map (fn [{:keys [attribs]}]
-           (-> attribs
-               (select-keys [:glyph-name :unicode])
-               (rename-keys {:glyph-name :name
-                             :unicode :value})))
-         $)
-    (mapcat flatten-icon-data $)
-    (sort-by :name $)))
+  (->> (js->clj dom :keywordize-keys true)
+       (first-match-children (name-equal-to "svg"))
+       (first-match-children (name-equal-to "defs"))
+       (first-match-children (name-equal-to "font"))
+       (filter (fn [{:keys [name attribs]} _]
+                 (and (= name "glyph")
+                      (:glyph-name attribs))))
+       (map (fn [{:keys [attribs]}]
+              (-> attribs
+                  (select-keys [:glyph-name :unicode])
+                  (rename-keys {:glyph-name :name
+                                :unicode :value}))))
+       (mapcat flatten-icon-data)
+       (sort-by :name)))
 
 (defn- spit-icon-edn
   "Creates resources/public/gallery-icon-data.edn, to be used directly by the gallery
@@ -69,9 +66,9 @@
                             (spit-icon-edn to-output-filepath parsed-icons))))
         handler       (DefaultHandler. parse-handler)
         parser        (Parser. handler)]
-    (as-> input-filepath $
-      (slurp $)
-      (.parseComplete parser $))))
+    (->> input-filepath
+         slurp
+         (.parseComplete parser))))
 
 (defn parse
   "Parse icomoon resources to produce icon edn data"
