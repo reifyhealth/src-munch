@@ -1,18 +1,18 @@
 # src-munch
 
-A set of tools used to unobtrusively consume development artifacts and provide them as clojure edn data
+A set of tools used to unobtrusively consume development artifacts and
+provide them as clojure edn data. The primary purpose for this is to
+make it easy to create our gallery.
+
+The gallery features colors and icons. Rather than hand-code the
+display of each color and icon, this library parses the definitions of
+our colors and icons, and produces data that the gallery-generating
+scripts in Salk can use.
 
 ## Install
 
-### Install lumo itself
-
-```
+```bash
 brew install lumo
-```
-
-### Install npm dependencies
-
-```
 npm install
 ```
 
