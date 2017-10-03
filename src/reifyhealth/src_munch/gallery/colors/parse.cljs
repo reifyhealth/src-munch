@@ -149,12 +149,10 @@
   (->> pipeline-fns
        (reduce (fn [acc pipeline-fn]
                  (let [results (pipeline-fn acc)]
-                   (cond
-                     (has-errors? results)
+                   (if (has-errors? results)
                      (do (report-errors results)
                          (reduced results))
-
-                     :else results)))
+                     results)))
                init)
        cleanup))
 
