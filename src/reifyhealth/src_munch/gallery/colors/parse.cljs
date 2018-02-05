@@ -118,7 +118,7 @@
   "Creates resources/public/gallery-color-data.edn, to be used directly by the gallery
   to generate the color swatches."
   [{:keys [color-edn-filepath color-edn] :as acc}]
-  (spit color-edn-filepath color-edn)
+  (spit color-edn-filepath (with-out-str (pprint color-edn)))
   acc)
 
 (defn- cleanup
