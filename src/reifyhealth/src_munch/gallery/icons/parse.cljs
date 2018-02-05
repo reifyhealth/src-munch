@@ -53,7 +53,7 @@
   "Creates resources/public/gallery-icon-data.edn, to be used directly by the gallery
   to generate the icons in the Iconography section."
   [to-output-filepath parsed-icons]
-  (spit to-output-filepath parsed-icons))
+  (spit to-output-filepath (with-out-str (pprint parsed-icons))))
 
 (defn- parse-html
   "Parse the icomoon svg file for the icon data it holds"
